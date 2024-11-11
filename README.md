@@ -1,0 +1,1 @@
+IoT-based health monitoring system using ESP8266 and a heart rate sensor to enable real-time heart rate tracking and data sharing. This system provides continuous monitoring and analysis, enhancing heart health assessment with cloud integration for remote accessibility."
