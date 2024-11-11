@@ -1,0 +1,47 @@
+#include <LiquidCrystal.h>
+
+// Initialize the LCD with the appropriate pins
+LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
+
+// Pin connections for the sensors
+const int tempPin = A1;  // L35 temperature sensor connected to A1
+const int heartRatePin = A0;  // Heart rate sensor connected to A0
+
+void setup() {
+  lcd.begin(16, 2);         // Initialize the LCD with 16 columns and 2 rows
+  Serial.begin(9600);       // Initialize serial communication
+}
+
+void loop() {
+  // Read analog values from the sensors
+  int tempValue = analogRead(tempPin);           // Read temperature sensor
+  int heartRateValue = analogRead(heartRatePin); // Read heart rate sensor
+  
+  // Convert temperature value (L35 sensor)
+  float voltage = tempValue * (5.0 / 1023.0);      // Convert the reading to voltage
+  float temperatureC = (voltage - 0.5) * 100.0;    // Convert voltage to temperature in Celsius
+  
+  // Map the heart rate sensor value to a heart rate (assumed range)
+  int heartRate = map(heartRateValue, 0, 1023, 60, 120); // Map to a range of 60 to 120 BPM
+
+  // Print values to Serial Monitor (optional)
+  Serial.print("Temperature: ");
+  Serial.print(temperatureC);
+  Serial.print(" C | Heart Rate: ");
+  Serial.print(heartRate);
+  Serial.println(" BPM");
+  
+  // Display on LCD
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Temp: ");
+  lcd.print(temperatureC);  // Display temperature
+  lcd.print(" C");
+  
+  lcd.setCursor(0, 1);
+  lcd.print("HR: ");
+  lcd.print(heartRate);     // Display heart rate
+  lcd.print(" BPM");
+
+  delay(1000);               // Update every 1 second
+}
